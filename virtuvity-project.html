@@ -1,0 +1,698 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050d0d">
+<title>Virtuvity Project | Server Handbook</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #050d0d;
+  --panel: #071615;
+  --green: #31ff9b;
+  --mint: #a0ffd1;
+  --text: #e8fff5;
+  --muted: #9bb8ae;
+  --line: rgba(49,255,155,.25);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 50% -15%, #0b563c55, transparent 48%), var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.55;
+}
+
+a { color: inherit; text-decoration: none; }
+.wrap { width: min(1220px, calc(100% - 40px)); margin: auto; }
+
+header {
+  height: 72px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #04100fe8;
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  line-height: 1.05;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  clip-path: polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);
+  background: linear-gradient(135deg,#a0ffd1,#00bb70);
+  color: #032116;
+  font-size: 24px;
+}
+
+.brand small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--green);
+  margin-top: 5px;
+}
+
+.navlinks {
+  display: flex;
+  gap: 22px;
+  color: #a8c5bb;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.navlinks a:hover,
+.footer-links a:hover { color: var(--green); }
+
+.navright { display: flex; align-items: center; gap: 12px; }
+
+.status {
+  font-size: 10px;
+  color: #c4ded2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 11px;
+  border: 1px solid #31ff9b22;
+  border-radius: 10px;
+}
+
+.status i {
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--green);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 11px 16px;
+  border: 1px solid var(--green);
+  border-radius: 9px;
+  background: #31ff9b0b;
+  color: var(--mint);
+  font-size: 12px;
+  font-weight: 800;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  background: #31ff9b19;
+  box-shadow: 0 0 25px #31ff9b20;
+}
+
+.btn.primary {
+  background: var(--green);
+  color: #032116;
+}
+
+.hero {
+  position: relative;
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  isolation: isolate;
+}
+
+.hero:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg,#04100ff7 0%,#04100fc9 44%,#04100f22 100%),
+    radial-gradient(ellipse at 75% 35%,#0b825b66,transparent 35%),
+    linear-gradient(150deg,#0c2927,#061211 58%,#0a3022);
+}
+
+.hero:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .22;
+  background-image:
+    linear-gradient(#31ff9b13 1px,transparent 1px),
+    linear-gradient(90deg,#31ff9b13 1px,transparent 1px);
+  background-size: 42px 42px;
+}
+
+.landscape {
+  position: absolute;
+  right: -2%;
+  bottom: 0;
+  width: 55%;
+  height: 100%;
+  z-index: -1;
+  opacity: .9;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.moon {
+  position: absolute;
+  top: 65px;
+  left: 45%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #c5ffe8;
+  box-shadow: 0 0 35px #7dffcf88, 0 0 100px #31ff9b22;
+}
+
+.castle {
+  position: absolute;
+  bottom: 0;
+  right: 8%;
+  width: 75%;
+  height: 78%;
+  filter: drop-shadow(0 0 22px #31ff9b24);
+}
+
+.tower {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(90deg,#071c1a,#17432f 60%,#071c1a);
+  border: 1px solid #31ff9b40;
+}
+
+.tower:before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: -8px;
+  right: -8px;
+  height: 18px;
+  background: repeating-linear-gradient(90deg,#153d2e 0 18px,#071c1a 18px 25px);
+  clip-path: polygon(0 100%,0 0,25% 0,25% 40%,50% 40%,50% 0,75% 0,75% 40%,100% 40%,100% 100%);
+}
+
+.tower:after {
+  content: "";
+  position: absolute;
+  inset: 18px 10px 0;
+  background: repeating-linear-gradient(90deg,transparent 0 22px,#42ffad 23px 27px,transparent 28px 48px);
+  opacity: .5;
+}
+
+.t1 { left: 0; width: 22%; height: 55%; }
+.t2 { left: 22%; width: 24%; height: 78%; }
+.t3 { left: 44%; width: 24%; height: 94%; }
+.t4 { left: 68%; width: 22%; height: 65%; }
+.t5 { right: 0; width: 12%; height: 42%; }
+
+.lit {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  background: #b8ffd8;
+  box-shadow: 0 0 12px #31ff9b;
+  z-index: 2;
+}
+
+.l1 { left: 12%; bottom: 25%; }
+.l2 { left: 32%; bottom: 45%; }
+.l3 { left: 53%; bottom: 61%; }
+.l4 { left: 77%; bottom: 32%; }
+.l5 { left: 61%; bottom: 24%; }
+.l6 { left: 39%; bottom: 20%; }
+
+.ridge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 22%;
+  background: #071b17;
+  clip-path: polygon(0 30%,15% 70%,29% 38%,43% 78%,58% 35%,73% 68%,88% 28%,100% 60%,100% 100%,0 100%);
+}
+
+.hero-content { padding: 65px 0; max-width: 620px; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.eyebrow:before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--green);
+}
+
+h1 {
+  font-family: 'Barlow Condensed',Impact,sans-serif;
+  font-size: clamp(64px,9vw,110px);
+  font-weight: 900;
+  line-height: .82;
+  letter-spacing: -2px;
+  margin: 20px 0 22px;
+  text-transform: uppercase;
+  text-shadow: 0 5px 0 #063f2a,0 0 32px #31ff9b1c;
+}
+
+h1 span {
+  display: block;
+  color: var(--green);
+  font-style: italic;
+  font-size: .78em;
+  letter-spacing: 1px;
+  margin-top: 10px;
+}
+
+.hero p { max-width: 430px; color: #c0d8ce; font-size: 14px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+
+.quote {
+  position: absolute;
+  right: 5%;
+  bottom: 42px;
+  max-width: 205px;
+  text-align: right;
+  color: #c8f5df;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.quote small {
+  display: block;
+  color: var(--green);
+  font-size: 10px;
+  margin-top: 7px;
+}
+
+.section { padding: 48px 0 62px; }
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 24px;
+}
+
+.section-title { display: flex; align-items: center; gap: 15px; }
+
+.shield {
+  width: 52px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  clip-path: polygon(50% 0,95% 20%,90% 72%,50% 100%,10% 72%,5% 20%);
+  background: linear-gradient(135deg,#31ff9b,#087e53);
+  color: #032116;
+  font-size: 25px;
+}
+
+.kicker {
+  color: var(--green);
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-family: 'Barlow Condensed',Impact,sans-serif;
+  font-size: clamp(32px,4vw,46px);
+  line-height: 1;
+  margin: 5px 0 7px;
+  text-transform: uppercase;
+}
+
+.section-title p { font-size: 12px; color: var(--muted); margin: 0; max-width: 470px; }
+
+.searchbox { position: relative; width: min(320px,100%); }
+
+.searchbox input {
+  width: 100%;
+  padding: 13px 40px 13px 14px;
+  background: #041211;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+}
+
+.searchbox input:focus { border-color: var(--green); }
+.searchbox span { position: absolute; right: 14px; top: 8px; color: var(--green); font-size: 18px; }
+
+.rule-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 13px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.rule-meta strong { color: var(--green); }
+
+.rules {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 12px;
+}
+
+.rule {
+  position: relative;
+  min-height: 125px;
+  padding: 15px;
+  background: linear-gradient(145deg,#071c19,#041110);
+  border: 1px solid #31ff9b31;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: .2s;
+}
+
+.rule:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35px;
+  height: 2px;
+  background: var(--green);
+  box-shadow: 0 0 15px var(--green);
+}
+
+.rule:hover {
+  transform: translateY(-3px);
+  border-color: #31ff9b9c;
+  box-shadow: 0 0 28px #31ff9b12;
+}
+
+.rule-top { display: flex; align-items: center; gap: 12px; margin-bottom: 9px; }
+
+.rule-num {
+  font-family: 'Barlow Condensed',Impact,sans-serif;
+  color: var(--green);
+  font-size: 27px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.rule-icon {
+  color: #45ffad;
+  font-size: 19px;
+  border-left: 1px solid #31ff9b48;
+  padding-left: 12px;
+  line-height: 1;
+}
+
+.rule h3 { font-size: 12px; margin: 0 0 5px; font-weight: 800; }
+.rule p { font-size: 11.5px; line-height: 1.55; color: #b8d1c7; margin: 0; }
+
+.empty {
+  display: none;
+  grid-column: 1/-1;
+  padding: 32px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+
+.reminder {
+  margin-top: 24px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(100deg,#0b3828,#071916 70%);
+  border: 1px solid #31ff9b62;
+  border-radius: 13px;
+}
+
+.reminder-mark {
+  font-family: 'Barlow Condensed',Impact,sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  font-style: italic;
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.reminder-divider { height: 42px; width: 1px; background: var(--green); opacity: .7; }
+.reminder strong { font-size: 14px; color: #a0ffd1; }
+.reminder p { font-size: 11px; color: var(--muted); margin: 3px 0 0; }
+.reminder .scribble { margin-left: auto; color: var(--green); font-size: 12px; font-weight: 800; font-style: italic; white-space: nowrap; }
+
+footer { border-top: 1px solid var(--line); background: #030a0a; padding: 22px 0; }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-brand { font-size: 12px; font-weight: 900; letter-spacing: 1px; }
+.footer-brand small { display: block; color: var(--green); font-size: 8px; letter-spacing: 3px; }
+.footer-links { display: flex; gap: 18px; color: var(--muted); font-size: 11px; }
+.copyright { font-size: 10px; color: #718c81; }
+.backtop { border-radius: 30px; padding: 9px 13px; font-size: 10px; }
+
+@media(max-width:950px) {
+  .rules { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .navlinks { gap: 15px; }
+  .quote { display: none; }
+  .landscape { width: 60%; opacity: .6; }
+}
+
+@media(max-width:700px) {
+  .wrap { width: calc(100% - 28px); }
+  header { height: 64px; }
+  .navlinks { display: none; }
+  .status { display: none; }
+  .brand-mark { width: 35px; height: 35px; }
+  .hero { min-height: 405px; }
+  .hero-content { padding: 56px 0; }
+  .landscape { width: 100%; opacity: .38; }
+  .hero:before {
+    background: linear-gradient(90deg,#04100ff2,#04100fa6),
+      radial-gradient(ellipse at 75% 35%,#0b825b66,transparent 35%),#061211;
+  }
+  h1 { font-size: clamp(60px,17vw,88px); }
+  .section { padding: 38px 0 48px; }
+  .section-head { align-items: stretch; flex-direction: column; }
+  .section-title { align-items: flex-start; }
+  .shield { flex-shrink: 0; }
+  .searchbox { width: 100%; }
+  .rules { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+  .rule { padding: 12px; min-height: 145px; }
+  .rule p { font-size: 11px; }
+  .reminder { padding: 16px; gap: 12px; flex-wrap: wrap; }
+  .reminder .scribble { display: none; }
+  .footer { justify-content: center; text-align: center; }
+  .footer-links { order: 3; width: 100%; justify-content: center; }
+}
+
+@media(max-width:390px) {
+  .rules { grid-template-columns: 1fr; }
+  .rule { min-height: auto; }
+  .navright .btn { padding: 9px; font-size: 10px; }
+  .hero-actions .btn { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#home">
+      <span class="brand-mark">V</span>
+      <span>VIRTUVITY<small>PROJECT</small></span>
+    </a>
+
+    <nav class="navlinks">
+      <a href="#home">⌂ Beranda</a>
+      <a href="#peraturan">▤ Peraturan</a>
+      <a href="#catatan">ⓘ Tentang</a>
+    </nav>
+
+    <div class="navright">
+      <div class="status">
+        <i></i>
+        <span>Server Community<br><b>ROLEPLAY • SURVIVAL</b></span>
+      </div>
+      <a class="btn" href="https://discord.gg/mPkjD5Mh5"
+         target="_blank" rel="noopener noreferrer">
+        💬 Join Discord ↗
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="landscape" aria-hidden="true">
+    <div class="moon"></div>
+    <div class="castle">
+      <div class="tower t1"></div>
+      <div class="tower t2"></div>
+      <div class="tower t3"></div>
+      <div class="tower t4"></div>
+      <div class="tower t5"></div>
+      <i class="lit l1"></i><i class="lit l2"></i>
+      <i class="lit l3"></i><i class="lit l4"></i>
+      <i class="lit l5"></i><i class="lit l6"></i>
+    </div>
+    <div class="ridge"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-content">
+      <div class="eyebrow">WELCOME TO</div>
+      <h1>VIRTUVITY<span>PROJECT</span></h1>
+      <p>Bukan sekadar server, tapi tempat untuk membuat cerita bersama. Main dengan adil, hormati player lain, dan ciptakan momen yang bakal diingat.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#peraturan">▤ Lihat Peraturan →</a>
+        <a class="btn" href="https://discord.gg/mPkjD5Mh5" target="_blank" rel="noopener noreferrer">💬 Join Discord ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote">“Main dengan hati,<br>bukan dengan ego.”<small>— Virtuvity Project</small></div>
+</section>
+
+<section class="section wrap" id="peraturan">
+  <div class="section-head">
+    <div class="section-title">
+      <div class="shield">⬟</div>
+      <div>
+        <div class="kicker">Panduan server</div>
+        <h2>Peraturan</h2>
+        <p>Baca dan pahami semua peraturan di bawah ini agar server tetap aman, nyaman, dan menyenangkan untuk semua member.</p>
+      </div>
+    </div>
+
+    <label class="searchbox">
+      <input id="searchInput" type="search" placeholder="Cari peraturan..." aria-label="Cari peraturan">
+      <span>⌕</span>
+    </label>
+  </div>
+
+  <div class="rule-meta">
+    <span>SERVER HANDBOOK / <strong>01—21</strong></span>
+    <span id="ruleCount">21 peraturan</span>
+  </div>
+
+  <div class="rules" id="rulesList">
+    <article class="rule"><div class="rule-top"><span class="rule-num">01</span><span class="rule-icon">⚔</span></div><h3>Jangan membunuh sembarangan</h3><p>Dilarang membunuh player tanpa alasan atau konteks yang masuk akal di dalam cerita.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">02</span><span class="rule-icon">⊘</span></div><h3>No cheat</h3><p>Dilarang menggunakan cheat seperti X-ray, Kill Aura, dan sejenisnya. Main yang fair.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">03</span><span class="rule-icon">ᴢᶻ</span></div><h3>Hormati player AFK</h3><p>Jangan membunuh atau mengganggu orang yang sedang AFK.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">04</span><span class="rule-icon">♡</span></div><h3>No baper</h3><p>Masalah di game jangan dibawa ke grup. Pisahkan konflik karakter dari hubungan antar-player.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">05</span><span class="rule-icon">⌂</span></div><h3>Jangan rusuh base orang</h3><p>Serangan base harus punya konteks konflik cerita. Jangan sampai bikin orang lain bosan main.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">06</span><span class="rule-icon">▣</span></div><h3>Usahakan bikin konten</h3><p>Kalau bisa, rekam POV kalian dan upload ke TikTok, YouTube, atau platform lain yang sesuai.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">07</span><span class="rule-icon">⚙</span></div><h3>Jangan bikin server lag</h3><p>Hindari mesin terlalu berat. Pikirkan dampaknya ke performa server dan player lain.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">08</span><span class="rule-icon">♙</span></div><h3>Usahakan aktif</h3><p>Kalau sedang senggang, usahakan online. Yuk ramaikan server yang sudah dibangun bersama.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">09</span><span class="rule-icon">♆</span></div><h3>Jaga tempat AFK fishing</h3><p>Dilarang menghancurkan atau merusak tempat AFK fishing milik bersama maupun player lain.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">10</span><span class="rule-icon">▤</span></div><h3>Bikin cerita yang masuk akal</h3><p>Bebas bikin cerita, tapi jangan membuat karakter kebal atau tidak terkalahkan tanpa alasan jelas.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">11</span><span class="rule-icon">♧</span></div><h3>Jangan menekan player lain</h3><p>Beri ruang buat semua orang mengembangkan cerita. Jangan mendominasi RP.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">12</span><span class="rule-icon">♙♙</span></div><h3>Maksimal 3 orang per tim</h3><p>Jumlah member terbatas, jadi satu tim maksimal 3 orang agar kekuatan tetap seimbang.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">13</span><span class="rule-icon">⬡</span></div><h3>Trap hanya di base sendiri</h3><p>Buat trap untuk pertahanan di base sendiri. Jangan memasang trap sembarangan di area umum.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">14</span><span class="rule-icon">✹</span></div><h3>Jangan hancurkan base tanpa sebab</h3><p>Base orang bukan tempat latihan TNT. Harus ada alasan atau konteks cerita yang jelas.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">15</span><span class="rule-icon">⚙</span></div><h3>Admin wajib adil</h3><p>Admin tidak boleh mengambil item GMC untuk Survival. Pisahkan akun Survival dan akun admin jika memungkinkan.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">16</span><span class="rule-icon">▣</span></div><h3>Bangun cerita yang menarik</h3><p>Usahakan cerita punya perkembangan. Jangan sedikit-sedikit perang; variasikan alurnya.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">17</span><span class="rule-icon">♧</span></div><h3>Belajar mandiri</h3><p>Coba cari solusi sendiri sebelum meminta bantuan admin untuk masalah yang bisa diatasi.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">18</span><span class="rule-icon">▦</span></div><h3>Jangan atur RP sebelumnya</h3><p>Hindari mengatur kejadian RP di luar server. Biarkan pertemuan dan cerita berkembang alami.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">19</span><span class="rule-icon">◉</span></div><h3>Pisahkan info luar game</h3><p>Jangan gunakan info dari POV musuh seperti koordinat base atau rencana mereka. Info luar server bukan pengetahuan karakter.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">20</span><span class="rule-icon">☏</span></div><h3>Jaga toxic saat RP</h3><p>Karakter boleh marah dan toxic sewajarnya, tapi jangan menyerang player secara pribadi.</p></article>
+    <article class="rule"><div class="rule-top"><span class="rule-num">21</span><span class="rule-icon">⬡</span></div><h3>Jangan serang player yang lag</h3><p>Kalau player tiba-tiba lag saat perang, jangan manfaatkan situasi untuk membunuhnya. Tetap respek.</p></article>
+    <div class="empty" id="emptyState">Peraturan tidak ditemukan. Coba kata kunci lain.</div>
+  </div>
+
+  <div class="reminder" id="catatan">
+    <div class="reminder-mark">▣ INGAT!</div>
+    <div class="reminder-divider"></div>
+    <div>
+      <strong>Ini cuma buat seru-seruan, bukan buat cari masalah.</strong>
+      <p>Maaf kalau aturannya ketat. Aturan ini dibuat supaya member baru juga paham batasannya. Jaga sikap, jaga game, jaga cerita.</p>
+    </div>
+    <a class="scribble" href="https://discord.gg/mPkjD5Mh5" target="_blank" rel="noopener noreferrer">Join Discord ↗</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap footer">
+    <a class="footer-brand" href="#home">◈ VIRTUVITY<small>PROJECT</small></a>
+    <nav class="footer-links">
+      <a href="#home">Beranda</a>
+      <a href="#peraturan">Peraturan</a>
+      <a href="#catatan">Tentang</a>
+      <a href="https://discord.gg/mPkjD5Mh5" target="_blank" rel="noopener noreferrer">Discord ↗</a>
+    </nav>
+    <span class="copyright">© <span id="year"></span> Virtuvity Project. All rights reserved.</span>
+    <a class="btn backtop" href="#home">↑ Kembali ke Atas</a>
+  </div>
+</footer>
+
+<script>
+const input = document.getElementById('searchInput');
+const cards = [...document.querySelectorAll('.rule')];
+const count = document.getElementById('ruleCount');
+const empty = document.getElementById('emptyState');
+
+input.addEventListener('input', () => {
+  const q = input.value.toLocaleLowerCase('id-ID').trim();
+  let visible = 0;
+
+  cards.forEach(card => {
+    const match = card.innerText.toLocaleLowerCase('id-ID').includes(q);
+    card.style.display = match ? 'block' : 'none';
+    if (match) visible++;
+  });
+
+  count.textContent = `${visible} dari ${cards.length} peraturan`;
+  empty.style.display = visible ? 'none' : 'block';
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
